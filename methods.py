@@ -50,23 +50,7 @@ def test_verify_iam_role_policy():
 # Run unit tests
 test_verify_iam_role_policy()
 
-file_content = {
-    "PolicyName": "root",
-    "PolicyDocument": {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Sid": "IamListAccess",
-                "Effect": "Allow",
-                "Action": [
-                    "iam:ListRoles",
-                    "iam:ListUsers"
-                ],
-                "Resource": "*"
-            }
-        ]
-    }
-}
+file_content = '{"PolicyName": "root","PolicyDocument": {"Version": "2012-10-17","Statement": [{"Sid": "IamListAccess","Effect": "Allow","Action": ["iam:ListRoles","iam:ListUsers"],"Resource": "*"}]}}'
 
 print(verify_iam_role_policy(file_content))
 
