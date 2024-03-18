@@ -24,5 +24,8 @@ print("Is policy valid?", result)
 #with open("your json filename in this directory", "r") as file:
 #  result = file.read()
 #print("Is policy valid?", verify_iam_role_policy(result))
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 0a653bc24d8836d9ae5cd62f2fcfb84894004f54
