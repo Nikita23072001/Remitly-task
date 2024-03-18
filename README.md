@@ -18,3 +18,9 @@ policy_json = '{"PolicyName": "root", "PolicyDocument": {"Version": "2012-10-17"
 
 result = verify_iam_role_policy(policy_json)
 print("Is policy valid?", result)
+
+#or
+
+#with open("your json filename in this directory", "r") as file:
+#  result = file.read()
+#print("Is policy valid?", verify_iam_role_policy(result))
