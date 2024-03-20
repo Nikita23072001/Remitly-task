@@ -1,32 +1,40 @@
-IAM Role Policy Verifier
+# IAM Role Policy Verifier
+
 This Python script verifies input JSON data against the AWS IAM Role Policy format.
 
-Usage
-Prerequisites
-Python 3.x
-json module (comes built-in with Python)
-unittest module (comes built-in with Python)
-Installation
+## Usage
+
+### Prerequisites
+
+- Python 3.x
+- `json` module (comes built-in with Python)
+- `unittest` module (comes built-in with Python)
+
+### Installation
+
 Clone the repository to your local machine:
 
-bash
-Copy code
-git clone https://github.com/your_username/iam-role-policy-verifier.git
-Usage Example
-Run the Script: Execute the Python script methods.py from your terminal or command prompt.
+```bash
+git clone https://github.com/Nikita23072001/iam-role-policy-verifier.git
+```
 
-bash
-Copy code
+## Usage Example
+1. Run the Script: Execute the Python script methods.py from your terminal or command prompt.
+
+```bash
 python methods.py
-Verify JSON Data: The script reads JSON data from example files (example_false_data.json and example_true_data.json), verifies them using the verify_iam_role_policy() function, and prints the result.
+```
 
-Run Unit Tests: The script also includes unit tests to ensure the correctness of the verify_iam_role_policy() function. Run the tests using the following command:
+2. Verify JSON Data: The script reads JSON data from example files (example_false_data.json and example_true_data.json), verifies them using the verify_iam_role_policy() function, and prints the result.
 
-bash
-Copy code
+3. Run Unit Tests: The script also includes unit tests to ensure the correctness of the verify_iam_role_policy() function. Run the tests using the following command:
+
+```bash
 python methods.py
-Function Documentation
-read_json_file(file_path: str) -> dict
+```
+
+## Function Documentation
+`read_json_file(file_path: str) -> dict`
 Reads JSON data from a file and parses it into a dictionary.
 
 file_path: Path to the JSON file.
