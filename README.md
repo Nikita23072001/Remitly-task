@@ -15,7 +15,7 @@ This Python script verifies input JSON data against the AWS IAM Role Policy form
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/Nikita23072001/iam-role-policy-verifier.git
+git clone https://github.com/Nikita23072001/Remitly-task.git
 ```
 
 ## Usage Example
