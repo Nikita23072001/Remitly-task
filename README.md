@@ -1,20 +1,40 @@
-# Remitly-task
-# IAM Role Policy Verifier
+IAM Role Policy Verifier
+This Python script verifies input JSON data against the AWS IAM Role Policy format.
 
-This project contains a Python script for verifying AWS IAM role policies.
+Usage
+Prerequisites
+Python 3.x
+json module (comes built-in with Python)
+unittest module (comes built-in with Python)
+Installation
+Clone the repository to your local machine:
 
-## Overview
+bash
+Copy code
+git clone https://github.com/your_username/iam-role-policy-verifier.git
+Usage Example
+Run the Script: Execute the Python script methods.py from your terminal or command prompt.
 
-The `methods.py` file in this project contains a Python function `verify_iam_role_policy` for checking the validity of IAM role policies. The function takes a JSON string representing an IAM role policy as input and returns `True` if the policy does not contain the `"Resource": "*"` field in any statement, and `False` otherwise.
+bash
+Copy code
+python methods.py
+Verify JSON Data: The script reads JSON data from example files (example_false_data.json and example_true_data.json), verifies them using the verify_iam_role_policy() function, and prints the result.
 
-## Usage
+Run Unit Tests: The script also includes unit tests to ensure the correctness of the verify_iam_role_policy() function. Run the tests using the following command:
 
-To use the `verify_iam_role_policy` function, import it into your Python script or interactive session and call it with the IAM role policy JSON file or string as input:
+bash
+Copy code
+python methods.py
+Function Documentation
+read_json_file(file_path: str) -> dict
+Reads JSON data from a file and parses it into a dictionary.
 
-```python
-from methods import verify_iam_role_policy
+file_path: Path to the JSON file.
+Returns: Dictionary representing the JSON data.
+verify_iam_role_policy(input_json: dict) -> bool
+Verifies the input JSON data against the AWS IAM Role Policy format.
 
-policy_json = '{"PolicyName": "root", "PolicyDocument": {"Version": "2012-10-17", "Statement": [{"Sid": "IamListAccess", "Effect": "Allow", "Action": ["iam:ListRoles", "iam:ListUsers"], "Resource": "arn:aws:iam::123456789012:role/*"}]}}'
-
-result = verify_iam_role_policy(policy_json)
-print("Is policy valid?", result)
+input_json: Input JSON data to verify.
+Returns: True if the input JSON conforms to the format, False otherwise.
+Unit Tests
+The script includes unit tests to validate the correctness of the verify_iam_role_policy() function. These tests cover various scenarios to ensure accurate verification of IAM role policies.
