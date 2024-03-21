@@ -11,7 +11,10 @@ This Python script provides a function (`verify_iam_role_policy`) to validate th
 
 ### Installation
 
-This script requires Python 3.  You can install it using your system's package manager or from https://www.python.org/downloads/.
+This script requires Python 3.x .  You can install it using your system's package manager or from https://www.python.org/downloads/.
+
+
+### Clone repository
 
 ```bash
 git clone https://github.com/Nikita23072001/Remitly-task.git
