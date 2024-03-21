@@ -1,116 +1,50 @@
 import json
-import boto3
-import unittest
 
-def read_json_file(file_path: str) -> dict:
+def read_json_file(file_path: str) -> str:
+    """
+    This function reads the content of a JSON file from the given path and returns it as a string.
+    """
     with open(file_path, 'r') as file:
-        json_data = json.load(file)
-    return json_data
+        file_content = file.read()
+        return file_content
 
-def verify_iam_role_policy(input_json: dict) -> bool:
+def verify_iam_role_policy(data: str) -> bool:
+  """
+  This function checks if the input data is a valid JSON representation of an AWS::IAM::Role Policy,
+  including checks for missing properties and wildcard resources.
 
-    """
-    Verify the input JSON data against the AWS::IAM::Role Policy format.
+  Args:
+      data: The input data to be checked.
 
-    Parameters:
-        input_json (dict): The input JSON data to verify.
+  Returns:
+      True if the data is a valid IAM role policy, False otherwise.
+  """
+  try:
+    # Try to parse the data as JSON
+    parsed_data = json.loads(data)
+  except json.JSONDecodeError:
+    return False
 
-    Returns:
-        bool: True if the input JSON conforms to the format, False otherwise.
-    """
+  # Check for required properties
+  required_props = {"PolicyDocument", "PolicyName"}  # Include both properties
+  missing_props = required_props - set(parsed_data.keys())
+  if missing_props:
+    return False
 
-    # Ensure input_json is a dictionary
-    if not isinstance(input_json, dict):
+  # Validate PolicyDocument structure (considering different actions)
+  if not isinstance(parsed_data["PolicyDocument"], dict) or "Statement" not in parsed_data["PolicyDocument"]:
+    return False
+  for statement in parsed_data["PolicyDocument"]["Statement"]:
+    if not isinstance(statement, dict) or not all(key in statement for key in ("Effect", "Action", "Resource")):
+      return False
+    # Wildcard resource check
+    if statement["Resource"] == "*":
+        print(statement["Resource"])
         return False
-    
-    # Ensure 'Version' and 'Statement' keys are present
-    if 'Version' not in input_json or 'Statement' not in input_json:
-        return False
-    
-    # Ensure 'Statement' is a list
-    if not isinstance(input_json['Statement'], list):
-        return False
-    
-    # Ensure each statement in 'Statement' is a dictionary with required keys
-    for statement in input_json['Statement']:
-        if not isinstance(statement, dict):
-            return False
-        if 'Effect' not in statement or 'Action' not in statement or 'Resource' not in statement:
-            return False
-        if 'Resource' not in statement or statement['Resource'] == '*':
-            return False
 
-    # If all checks passed, return True
-    return True
+  return True
 
-file1 = read_json_file('example_false_data.json')
-file2 = read_json_file('example_true_data.json')
-print(verify_iam_role_policy(file1))
-print(verify_iam_role_policy(file2))
-
-class TestVerifyIAMRolePolicy(unittest.TestCase):
-    def test_valid_policy(self):
-        input_json = {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": "s3:GetObject",
-                    "Resource": "arn:aws:s3:::example-bucket/*"
-                }
-            ]
-        }
-        self.assertTrue(verify_iam_role_policy(input_json))
-
-    def test_missing_version_key(self):
-        input_json = {
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": "s3:GetObject",
-                    "Resource": "arn:aws:s3:::example-bucket/*"
-                }
-            ]
-        }
-        self.assertFalse(verify_iam_role_policy(input_json))
-
-    def test_missing_statement_key(self):
-        input_json = {
-            "Version": "2012-10-17"
-        }
-        self.assertFalse(verify_iam_role_policy(input_json))
-
-    def test_statement_not_list(self):
-        input_json = {
-            "Version": "2012-10-17",
-            "Statement": {}
-        }
-        self.assertFalse(verify_iam_role_policy(input_json))
-
-    def test_invalid_statement_structure(self):
-        input_json = {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Resource": "arn:aws:s3:::example-bucket/*"
-                }
-            ]
-        }
-        self.assertFalse(verify_iam_role_policy(input_json))
-
-    def test_invalid_resource(self):
-        input_json = {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": "s3:GetObject",
-                    "Resource": "*"
-                }
-            ]
-        }
-        self.assertFalse(verify_iam_role_policy(input_json))
-
-if __name__ == '__main__':
-    unittest.main()
+#My check if works as expected
+# file1 = read_json_file('example_false_data.json')
+print(verify_iam_role_policy(read_json_file('example_false_data.json')))
+print(verify_iam_role_policy(read_json_file('example_true_data.json')))
