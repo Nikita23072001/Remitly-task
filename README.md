@@ -32,7 +32,7 @@ from methods.py import verify_iam_role_policy
 # Load your JSON data
 data = '{"PolicyName": "MyPolicy", ...}'
 # or
-data = read_json_file("file_path")
+data = read_json_file("file_path") # write in "file_path" your json iam_role_policy file
 
 # Validate the data
 result = verify_iam_role_policy(data)
